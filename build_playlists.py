@@ -12,6 +12,10 @@ that time of day (that context's real like rate + FIT_MARGIN). Each playlist is
 ordered by how much more the song is liked at that time than at other times, so
 the playlists aren't all the same favorites.
 
+Workout and Chill playlists are rule-based on the song's ReccoBeats audio
+features (there's no record of when you were working out to learn from): they
+take the liked songs whose sound matches the thresholds below.
+
 Usage:
     python build_playlists.py   (run train_model.py first)
 """
@@ -20,13 +24,20 @@ from pathlib import Path
 import joblib
 import pandas as pd
 
-from features import CONTEXTS, FEATURES, build_features, history_snapshot, load_plays
+from features import (CONTEXTS, FEATURES, build_features, history_snapshot,
+                      load_audio_features, load_plays)
 
 MIN_PLAYS = 3          # songs heard fewer times than this are too unknown to judge
 LIKED_THRESHOLD = 0.5
 FIT_MARGIN = 0.05
 PLAYLIST_SIZE = 50
 MOMENTS_PER_CONTEXT = 100
+
+# Sound-based playlists: (feature, ">=" or "<=", threshold) rules a liked song must all meet.
+SOUND_PLAYLISTS = {
+    "workout": [("energy", ">=", 0.65), ("danceability", ">=", 0.6), ("tempo", ">=", 100)],
+    "chill": [("energy", "<=", 0.45), ("acousticness", ">=", 0.4)],
+}
 
 # Features describing the listening moment rather than the song.
 MOMENT_COLS = [
@@ -47,11 +58,19 @@ def candidate_rows(plays, tracks):
     rows = rows.join(snap["track_ctx"], on=["track_uri", "context"])
     rows = rows.join(snap["artist_ctx"], on=["artist", "context"])
     rows = rows.join(snap["days_since_first_play"], on="track_uri")
+    rows = rows.join(load_audio_features(), on="track_uri")
     # Never heard in this context yet -> zero plays, neutral rate.
     for name in ("track_ctx", "artist_ctx"):
         rows[f"{name}_prev_plays"] = rows[f"{name}_prev_plays"].fillna(0)
         rows[f"{name}_like_rate"] = rows[f"{name}_like_rate"].fillna(0.5)
     return rows
+
+
+def matches(songs, rules):
+    ok = pd.Series(True, index=songs.index)
+    for feature, op, threshold in rules:
+        ok &= songs[feature] >= threshold if op == ">=" else songs[feature] <= threshold
+    return ok  # NaN audio (song not in ReccoBeats data) never matches
 
 
 def main():
@@ -78,6 +97,9 @@ def main():
     for ctx in CONTEXTS:
         out[f"p_{ctx}"] = p[ctx]
         out[f"fits_{ctx}"] = p[ctx] >= context_like_rate[ctx] + FIT_MARGIN
+    out = out.join(load_audio_features())
+    for name, rules in SOUND_PLAYLISTS.items():
+        out[f"fits_{name}"] = out["liked"] & matches(out, rules)
     out = out.sort_values("p_liked", ascending=False).round(3)
 
     Path("outputs/playlists").mkdir(parents=True, exist_ok=True)
@@ -94,6 +116,13 @@ def main():
         playlist.to_csv(f"outputs/playlists/{ctx}.csv")
         print(f"{ctx.replace('_', ' ').title()} playlist: "
               f"{out[f'fits_{ctx}'].sum():,} songs fit, top 5:")
+        print(playlist.head(5).to_string(index=False), "\n")
+
+    for name, rules in SOUND_PLAYLISTS.items():
+        rule_cols = [feature for feature, _, _ in rules]
+        playlist = out[out[f"fits_{name}"]].head(PLAYLIST_SIZE)[["track", "artist", "p_liked", *rule_cols]]
+        playlist.to_csv(f"outputs/playlists/{name}.csv")
+        print(f"{name.title()} playlist: {out[f'fits_{name}'].sum():,} liked songs match, top 5:")
         print(playlist.head(5).to_string(index=False), "\n")
     print("Wrote outputs/track_predictions.csv and outputs/playlists/*.csv")
 

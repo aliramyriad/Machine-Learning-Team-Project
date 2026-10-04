@@ -4,6 +4,8 @@ Every feature for a play is computed only from what happened *before* that
 play (running counts, shifted by one), so the model never sees the outcome it
 is predicting.
 """
+import json
+
 import pandas as pd
 
 LOCAL_TZ = "America/New_York"
@@ -20,6 +22,12 @@ CONTEXTS = {
 }
 HOUR_TO_CONTEXT = {h: ctx for ctx, hours in CONTEXTS.items() for h in hours}
 
+# Song audio features from the ReccoBeats API (exported to track_dataset.json).
+AUDIO = [
+    "energy", "danceability", "tempo", "valence", "acousticness", "instrumentalness",
+    "speechiness", "liveness", "loudness", "key", "mode",
+]
+
 CATEGORICAL = ["platform", "reason_start", "context"]
 NUMERIC = [
     "hour", "weekday", "is_weekend", "shuffle", "offline",
@@ -30,7 +38,8 @@ NUMERIC = [
     "days_since_first_play",
     "session_pos", "session_like_rate", "prev_liked", "gap_min",
 ]
-FEATURES = CATEGORICAL + NUMERIC
+FEATURES_NO_AUDIO = CATEGORICAL + NUMERIC
+FEATURES = FEATURES_NO_AUDIO + AUDIO
 
 # (feature prefix, grouping columns) for the running like-rate features
 HISTORY_GROUPS = [
@@ -49,6 +58,19 @@ def load_plays(path="data/plays.csv"):
     df = pd.read_csv(path, parse_dates=["ts"])
     df["artist"] = df["artist"].fillna("unknown")
     return df.sort_values("ts").reset_index(drop=True)
+
+
+def load_audio_features(path="track_dataset.json"):
+    """Audio features per track, indexed by track URI.
+
+    Only the audio features are used: the file's play_count / minutes /
+    first_played columns summarise the whole year, test months included.
+    """
+    with open(path) as f:
+        records = json.load(f)
+    audio = pd.DataFrame([{"track_uri": r["spotify_track_uri"], **r["audio_features"]}
+                          for r in records])
+    return audio.set_index("track_uri")[AUDIO]
 
 
 def add_label_and_context(df):
@@ -90,7 +112,9 @@ def build_features(df):
     df["session_like_rate"] = smoothed_rate(s.cumsum() - df["liked"], df["session_pos"])
     df["prev_liked"] = s.shift()  # NaN on the first song of a session
     df["gap_min"] = gap.where(df["session_pos"] > 0)
-    return df
+
+    # Songs missing from the audio dataset get NaN features.
+    return df.join(load_audio_features(), on="track_uri")
 
 
 def history_snapshot(df):

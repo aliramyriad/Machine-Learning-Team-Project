@@ -1,8 +1,9 @@
 # Spotify Song Classifier
 
 Predicts whether a song will be **liked**, and which **playlists** it fits
-(morning / afternoon / evening / late night), from one person's Spotify
-listening history (Jan–Sep 2026, ~14.6k plays, ~4.9k songs).
+(morning / afternoon / evening / late night / workout / chill), from one
+person's Spotify listening history (Jan–Sep 2026, ~14.6k plays, ~4.9k songs)
+plus song audio features from the [ReccoBeats API](https://reccobeats.com).
 
 ## How it works
 
@@ -15,14 +16,26 @@ what happened *before* that play, so the model can't cheat:
 - the song's and artist's past like rate and play count (overall and at this time of day)
 - time of day, weekday, device, shuffle, how the play started
 - how the current listening session is going (was the last song liked? etc.)
+- the song's audio features from ReccoBeats: energy, danceability, tempo,
+  valence, acousticness, instrumentalness, speechiness, liveness, loudness,
+  key, mode (available for 73% of plays; missing values are left blank)
 
-It trains on Jan–Jul and is tested on Aug–Sep:
+It trains on Jan–Jul and is tested on Aug–Sep, with and without audio features:
 
 | Model | Accuracy | F1 | ROC-AUC |
 |---|---|---|---|
 | Always guess "not liked" | 0.51 | 0.00 | 0.50 |
-| Logistic regression | 0.75 | 0.75 | 0.84 |
-| Gradient boosting | 0.75 | 0.74 | 0.83 |
+| Logistic regression, no audio | 0.75 | 0.75 | 0.835 |
+| Logistic regression + audio | 0.75 | 0.75 | 0.837 |
+| Gradient boosting, no audio | 0.75 | 0.74 | 0.828 |
+| Gradient boosting + audio | 0.75 | 0.74 | 0.828 |
+
+Audio features barely help: past skips of the song and artist already capture
+taste, and the strongest signal is session "mood" (was the last song liked?).
+
+The file's `play_count` / minutes / `first_played` / `last_played` columns are
+deliberately **not** used: they summarise the whole year, including the test
+months, so they would leak the answer.
 
 **Stage 2 – "Which playlist does it fit?"** (`build_playlists.py`)
 For each song with 3+ plays, the model scores it in 100 real listening moments
@@ -33,6 +46,12 @@ from each time of day and averages the results. A song:
 
 Each playlist is ordered by how much more the song is liked at that time than at
 other times, so the four playlists don't just repeat the same favorites.
+
+**Workout** and **Chill** are rule-based on audio features, because there's no
+record of when you were working out to learn from. They take the liked songs
+whose sound matches (thresholds in `SOUND_PLAYLISTS` in `build_playlists.py`):
+- Workout: energy ≥ 0.65, danceability ≥ 0.6, tempo ≥ 100 BPM
+- Chill: energy ≤ 0.45, acousticness ≥ 0.4
 
 ## Run it
 
@@ -52,6 +71,7 @@ python build_playlists.py  # writes outputs/track_predictions.csv and outputs/pl
 | File | Purpose |
 |---|---|
 | `data/plays.csv` | Cleaned plays (music only; IP address and other personal fields removed) |
+| `track_dataset.json` | Per-song audio features from the ReccoBeats API |
 | `features.py` | Label, time-of-day contexts, and leak-free feature engineering |
 | `train_model.py` | Stage 1: train, evaluate, save model; writes `outputs/metrics.json` |
 | `build_playlists.py` | Stage 2: liked verdict and playlist fit for every song |
@@ -59,12 +79,10 @@ python build_playlists.py  # writes outputs/track_predictions.csv and outputs/pl
 
 ## Limitations / next steps
 
-- **No workout playlist yet.** Spotify blocks the audio-features endpoint
-  (energy, tempo, danceability) for new apps (it returns 403), and listening
-  history alone can't tell when you were working out. To add workout/chill
-  playlists, join a public dataset that already has audio features (e.g. a
-  Kaggle Spotify tracks dataset) on track ID, add those columns as features,
-  and define workout as high energy and tempo.
+- Spotify's own audio-features endpoint returns 403 for new apps, so audio
+  features come from ReccoBeats instead. 27% of plays (mostly songs played
+  once) have no audio features, and those songs can't appear in Workout/Chill.
+- Workout and Chill thresholds are hand-picked, not learned.
 - The strongest signal is session "mood" (skip streaks); song-specific signal is
   weaker, so playlist scores for songs with few plays are uncertain.
 - "Liked" is a proxy for real likes, so if you have actual liked-songs data

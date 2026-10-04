@@ -2,7 +2,8 @@
 
 Trains on Jan-Jul plays and tests on Aug-Sep plays (a time split, so we test on
 the "future" like a real recommender would), compares against simple
-baselines, then refits on all data and saves the model.
+baselines and against the same models without the ReccoBeats audio features,
+then refits on all data and saves the model.
 
 Usage:
     python train_model.py
@@ -23,7 +24,8 @@ from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_sc
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder, StandardScaler
 
-from features import CATEGORICAL, CONTEXTS, FEATURES, NUMERIC, build_features, load_plays
+from features import (AUDIO, CATEGORICAL, CONTEXTS, FEATURES, FEATURES_NO_AUDIO, NUMERIC,
+                      build_features, load_plays)
 
 TEST_START = pd.Timestamp("2026-08-01", tz="UTC")
 
@@ -44,10 +46,11 @@ def gradient_boosting():
     return make_pipeline(encode, model)
 
 
-def logistic_regression():
+def logistic_regression(features=FEATURES):
+    numeric = [c for c in NUMERIC + AUDIO if c in features]
     encode = ColumnTransformer([
         ("cat", OneHotEncoder(handle_unknown="ignore"), CATEGORICAL),
-        ("num", make_pipeline(SimpleImputer(strategy="median"), StandardScaler()), NUMERIC),
+        ("num", make_pipeline(SimpleImputer(strategy="median"), StandardScaler()), numeric),
     ])
     return make_pipeline(encode, LogisticRegression(max_iter=1000))
 
@@ -69,24 +72,27 @@ def main():
     X_train, y_train = train[FEATURES], train["liked"]
     X_test, y_test = test[FEATURES], test["liked"]
     print(f"Train: {len(train):,} plays   Test: {len(test):,} plays   "
-          f"Liked rate: {df['liked'].mean():.1%}\n")
+          f"Liked rate: {df['liked'].mean():.1%}   "
+          f"Plays with audio features: {df['energy'].notna().mean():.1%}\n")
 
     models = {
-        "baseline (always majority)": DummyClassifier(strategy="most_frequent"),
-        "logistic regression": logistic_regression(),
-        "gradient boosting": gradient_boosting(),
+        "baseline (always majority)": (DummyClassifier(strategy="most_frequent"), FEATURES),
+        "logistic regression, no audio": (logistic_regression(FEATURES_NO_AUDIO), FEATURES_NO_AUDIO),
+        "logistic regression + audio": (logistic_regression(), FEATURES),
+        "gradient boosting, no audio": (gradient_boosting(), FEATURES_NO_AUDIO),
+        "gradient boosting + audio": (gradient_boosting(), FEATURES),
     }
     results = {}
-    for name, model in models.items():
-        model.fit(X_train, y_train)
-        results[name] = scores(y_test, model.predict_proba(X_test)[:, 1])
+    for name, (model, features) in models.items():
+        model.fit(X_train[features], y_train)
+        results[name] = scores(y_test, model.predict_proba(X_test[features])[:, 1])
     print(pd.DataFrame(results).T.round(3).to_string(), "\n")
 
-    best = models["gradient boosting"]
+    best = models["gradient boosting + audio"][0]
     prob = best.predict_proba(X_test)[:, 1]
     by_context = {ctx: scores(y_test[test["context"] == ctx], prob[test["context"] == ctx])
                   for ctx in CONTEXTS}
-    print("Gradient boosting, test set by playlist context:")
+    print("Gradient boosting + audio, test set by playlist context:")
     print(pd.DataFrame(by_context).T.round(3).to_string(), "\n")
 
     imp = permutation_importance(best, X_test, y_test, scoring="roc_auc", n_repeats=5, random_state=0)
