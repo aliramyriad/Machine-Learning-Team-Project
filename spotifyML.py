@@ -1,14 +1,18 @@
 import base64
 import json
 
-import requests
-from requests import post
+from requests import post, get
+from dotenv import load_dotenv
 import os
 
+# Load environment variables from .env file
+load_dotenv()  
 
-client_id = "113b4d69bfd245cd80c330f6ca1825d3"
-client_secret = "58a6b3b91a6f4baf92c796a967be2e5d"
+# Before, running, ensure CLIENT_ID and CLIENT_SECRET are in .env! 
+client_id = os.getenv('CLIENT_ID')
+client_secret = os.getenv("CLIENT_SECRET")
 
+# Generate spotify access token from user credentials. Expires in 1 hour.
 def get_token():
     auth_string = client_id + ":" + client_secret
     auth_bytes = auth_string.encode("utf-8")
@@ -25,15 +29,21 @@ def get_token():
     token = json_result["access_token"]
     return token
 
-# token = get_token()
-# print(token)
+token = get_token()
+print(token)
 
 
+# Getting a track (working)
 url = "https://api.spotify.com/v1/tracks/2TpxZ7JUBn3uw46aR7qd6V"
-
 headers = {
     "Authorization": "Bearer " + get_token(), }
+response = get(url, headers=headers)
+print(response.json())
 
-response = requests.get(url, headers=headers)
 
+# Getting track features (deprecated, not working :[ )
+url = "https://api.spotify.com/v1/audio-features/2TpxZ7JUBn3uw46aR7qd6V"
+headers = {
+    "Authorization": "Bearer " + get_token(), }
+response = get(url, headers=headers)
 print(response.json())
