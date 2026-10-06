@@ -1,3 +1,8 @@
+# This file was our initial test on retrieving data using the Spotify API. 
+# This was ultimately never used, as the main listening data was obtained by a formal user data request.
+# Additionally, the request to get song features was deprecated, so the open ReccoBeats API was used instead (it returns the same song features).
+# https://reccobeats.com/docs/apis/get-audio-features
+
 import base64
 import json
 
@@ -8,7 +13,7 @@ import os
 # Load environment variables from .env file
 load_dotenv()  
 
-# Before, running, ensure CLIENT_ID and CLIENT_SECRET are in .env! 
+# Before running, ensure CLIENT_ID and CLIENT_SECRET are in .env! 
 client_id = os.getenv('CLIENT_ID')
 client_secret = os.getenv("CLIENT_SECRET")
 

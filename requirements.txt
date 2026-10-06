@@ -3,3 +3,5 @@ scikit-learn>=1.6
 joblib
 requests
 python-dotenv
+ipykernel
+matplotlib

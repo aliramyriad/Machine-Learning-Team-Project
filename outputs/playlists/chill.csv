@@ -1,34 +1,51 @@
 track_uri,track,artist,p_liked,energy,acousticness
-spotify:track:7AzVV4CtTbzLVMc5GDVWZj,LOVE AGAIN,Daniel Caesar,0.664,0.441,0.41
-spotify:track:3hBzKgqQKkChH9hyb3MhmT,I Think I Like You Better When You’re Gone,Reneé Rapp,0.576,0.436,0.544
-spotify:track:5vTNC4ONe5kc1rlGbjOEZs,Gaslight 101,Odeal,0.575,0.377,0.884
-spotify:track:5jTIePmUbBUVjJnpZeGiM3,We Find Love,Daniel Caesar,0.57,0.362,0.852
-spotify:track:3XZUsSs7b8v1r9lWtNzs2Z,Art Attack,Skeete,0.563,0.409,0.549
-spotify:track:6pyM30WDpG70VTfwoQg4m2,everything,Kehlani,0.562,0.448,0.851
-spotify:track:2xyx0o4xNOLLjBSbOOdcbA,Playing Games (with Bryson Tiller) - Extended Version,Summer Walker,0.558,0.408,0.603
-spotify:track:0RTnMChwd0ARVY3zOyNdaP,Orion's Belt,Sabrina Claudio,0.55,0.352,0.856
-spotify:track:4hWgC5BV5M7EtTleKVXNxw,Playing Games,Summer Walker,0.549,0.413,0.7
-spotify:track:3zPgAKn5tbmCuCKrR3r7qE,Triggered (freestyle),Jhené Aiko,0.548,0.389,0.796
-spotify:track:6qBFSepqLCuh5tehehc1bd,Like I Want You,GIVĒON,0.545,0.355,0.759
-spotify:track:4qQVKOnZEYWZIHUMRapsVO,Riot,Summer Walker,0.544,0.098,0.624
-spotify:track:2OrucC3HEPmZpkaQ05Nx0V,novocaine,GenriX,0.542,0.311,0.592
-spotify:track:3LfHBTYZBTqmz43tvVXJBd,Deep,Summer Walker,0.538,0.335,0.626
-spotify:track:4Y8MG7qcAMk7JB7Eebpcvu,Blue Dream,Jhené Aiko,0.538,0.404,0.506
-spotify:track:7EkiMl81fUHVwpItgtzI4r,I'll Kill You (feat. Jhené Aiko),Summer Walker,0.537,0.443,0.427
-spotify:track:1eIXYZWEfJO3Na2LCCnIJE,Love Language,SZA,0.535,0.261,0.853
-spotify:track:6HWsd6fqeamiFulSQhxKsD,i know,Nolais,0.535,0.345,0.654
-spotify:track:6yA2GnuThv4oDuEimu4Rmg,MAYBE.,SIENNA SPIRO,0.534,0.359,0.915
-spotify:track:0b83L1ToHRiwlpmUAjiCHc,Valentina,Daniel Caesar,0.533,0.311,0.622
-spotify:track:6eipQrmTw1N3nUfgLlEa2R,Nobody Else,Summer Walker,0.531,0.431,0.416
-spotify:track:2vviILENNzWi9CDYSlmHBX,Treat Me Like Somebody,Tink,0.53,0.355,0.51
-spotify:track:5Tp4UJvnsF4Zd05k0zXUte,CPR,Summer Walker,0.53,0.369,0.637
-spotify:track:644rGY6maSElnKVsAg1gJj,Girls Need Love,Summer Walker,0.524,0.418,0.558
-spotify:track:15MUF6KnRsUQcvD43tZUVx,Silhouettes,loopgarden,0.518,0.257,0.936
-spotify:track:7Fege3yv4dvehB3NdRBGwI,Banking On Me,Gunna,0.517,0.308,0.613
-spotify:track:2QNHWY1uKu0OzzEe1X6vo6,Selfish,Ama Louise,0.515,0.332,0.69
-spotify:track:2SPr7EDc5WBw1tM6bNgcZC,Girls Need Love (Girls Mix) (feat. Tyla),Summer Walker,0.515,0.326,0.518
-spotify:track:52brDlLtV8OmnqsPZQpOFu,Impromptu,Karri,0.512,0.406,0.768
-spotify:track:3f3cliOygeuUpGRwdohy12,Comfortable,H.E.R.,0.511,0.4,0.629
-spotify:track:6Yj7Zhxt73uvwFFvzQXdxO,Flight's Booked,Drake,0.511,0.41,0.886
-spotify:track:1axArDrl7n4M3QZMNN0XMs,Girls Need Love (with Drake) - Remix,Summer Walker,0.51,0.432,0.415
-spotify:track:7yNX3ZFBWZoR52pbeU4Mcl,Gold,Kiiara,0.509,0.412,0.615
+spotify:track:4Y8MG7qcAMk7JB7Eebpcvu,Blue Dream,Jhené Aiko,0.647,0.404,0.506
+spotify:track:3hBzKgqQKkChH9hyb3MhmT,I Think I Like You Better When You’re Gone,Reneé Rapp,0.635,0.436,0.544
+spotify:track:2vviILENNzWi9CDYSlmHBX,Treat Me Like Somebody,Tink,0.614,0.355,0.51
+spotify:track:0pzWCDSuVRX7m95EFOxVa0,Drunk Dialing...LODT,Summer Walker,0.613,0.437,0.604
+spotify:track:7EkiMl81fUHVwpItgtzI4r,I'll Kill You (feat. Jhené Aiko),Summer Walker,0.606,0.443,0.427
+spotify:track:6eipQrmTw1N3nUfgLlEa2R,Nobody Else,Summer Walker,0.605,0.431,0.416
+spotify:track:5Tp4UJvnsF4Zd05k0zXUte,CPR,Summer Walker,0.601,0.369,0.637
+spotify:track:2xyx0o4xNOLLjBSbOOdcbA,Playing Games (with Bryson Tiller) - Extended Version,Summer Walker,0.6,0.408,0.603
+spotify:track:4qQVKOnZEYWZIHUMRapsVO,Riot,Summer Walker,0.598,0.098,0.624
+spotify:track:6HWsd6fqeamiFulSQhxKsD,i know,Nolais,0.592,0.345,0.654
+spotify:track:2SPr7EDc5WBw1tM6bNgcZC,Girls Need Love (Girls Mix) (feat. Tyla),Summer Walker,0.59,0.326,0.518
+spotify:track:1axArDrl7n4M3QZMNN0XMs,Girls Need Love (with Drake) - Remix,Summer Walker,0.588,0.432,0.415
+spotify:track:78mXeWyY9ZEqOCkTl3nGfI,Fun Girl,Summer Walker,0.587,0.359,0.732
+spotify:track:43IMaycr34ZR5kS8mlL5hH,Just Might (with PARTYNEXTDOOR),Summer Walker,0.584,0.377,0.672
+spotify:track:15MUF6KnRsUQcvD43tZUVx,Silhouettes,loopgarden,0.584,0.257,0.936
+spotify:track:3XZUsSs7b8v1r9lWtNzs2Z,Art Attack,Skeete,0.579,0.409,0.549
+spotify:track:4YNrBVo8fv6qiTNwHLVDai,Potential,Summer Walker,0.576,0.37,0.572
+spotify:track:4hWgC5BV5M7EtTleKVXNxw,Playing Games,Summer Walker,0.573,0.413,0.7
+spotify:track:644rGY6maSElnKVsAg1gJj,Girls Need Love,Summer Walker,0.572,0.418,0.558
+spotify:track:3LfHBTYZBTqmz43tvVXJBd,Deep,Summer Walker,0.569,0.335,0.626
+spotify:track:2QNHWY1uKu0OzzEe1X6vo6,Selfish,Ama Louise,0.566,0.332,0.69
+spotify:track:7Fege3yv4dvehB3NdRBGwI,Banking On Me,Gunna,0.564,0.308,0.613
+spotify:track:7AzVV4CtTbzLVMc5GDVWZj,LOVE AGAIN,Daniel Caesar,0.563,0.441,0.41
+spotify:track:5vTNC4ONe5kc1rlGbjOEZs,Gaslight 101,Odeal,0.562,0.377,0.884
+spotify:track:4Li8dc3ucCesQJMKErU5zM,living room flow - Bonus,Jhené Aiko,0.56,0.423,0.607
+spotify:track:6pyM30WDpG70VTfwoQg4m2,everything,Kehlani,0.557,0.448,0.851
+spotify:track:6qBFSepqLCuh5tehehc1bd,Like I Want You,GIVĒON,0.554,0.355,0.759
+spotify:track:7pQAGG3OhXuYZrEh8nUCbi,Me,Summer Walker,0.553,0.251,0.703
+spotify:track:2OrucC3HEPmZpkaQ05Nx0V,novocaine,GenriX,0.55,0.311,0.592
+spotify:track:4eSGSqP2TZvvX0kadZZttM,Doing It Wrong,Drake,0.548,0.172,0.841
+spotify:track:3t844ssjXzE9M3SDtUxTI4,Eternal Sunshine,Jhené Aiko,0.547,0.406,0.791
+spotify:track:3zPgAKn5tbmCuCKrR3r7qE,Triggered (freestyle),Jhené Aiko,0.544,0.389,0.796
+spotify:track:4ZgXDDRSS4lVx1g3WkRon0,"Doctor, My Eyes",Khamari,0.542,0.433,0.786
+spotify:track:1zmm0RJr87jNbbLR08eaLV,Bloom (feat. Strings From Paris),Aqyila,0.539,0.321,0.699
+spotify:track:6Yj7Zhxt73uvwFFvzQXdxO,Flight's Booked,Drake,0.538,0.41,0.886
+spotify:track:1Q7EgiMOuwDcB0PJC6AzON,Best Part (feat. H.E.R.),Daniel Caesar,0.536,0.365,0.799
+spotify:track:5t3Vk8bRKylx4fjj7qlbib,bitches broken hearts,Billie Eilish,0.536,0.422,0.921
+spotify:track:5jTIePmUbBUVjJnpZeGiM3,We Find Love,Daniel Caesar,0.535,0.362,0.852
+spotify:track:5vPUv0xziXbV4lnWeVNXNq,Roommates,Malcolm Todd,0.534,0.292,0.619
+spotify:track:5TVlcZRCVoJVi9OaDvGxEB,Unravel Me,Sabrina Claudio,0.533,0.419,0.476
+spotify:track:7w5AOd6HrDIHewHfpABEss,Wicked Game,Chris Isaak,0.531,0.296,0.68
+spotify:track:0jF2AdhsalO1L7KkhK4LE5,Practice,Drake,0.53,0.239,0.574
+spotify:track:6yA2GnuThv4oDuEimu4Rmg,MAYBE.,SIENNA SPIRO,0.527,0.359,0.915
+spotify:track:0RTnMChwd0ARVY3zOyNdaP,Orion's Belt,Sabrina Claudio,0.527,0.352,0.856
+spotify:track:52brDlLtV8OmnqsPZQpOFu,Impromptu,Karri,0.527,0.406,0.768
+spotify:track:7iqP0fGWZVJLtkunH5iz7i,NEGLIGENT - UNPLUGGED,SAHXL,0.523,0.251,0.852
+spotify:track:6u4Hri8ePzAcIwmlljh9DL,Unakkul Naane (slowed + reverbed),Harris Jayaraj,0.522,0.443,0.69
+spotify:track:2ktg2oZDyFAX3iY1QNkXl5,Session 32,Summer Walker,0.52,0.123,0.894
+spotify:track:2kX5Bl9fIPygbQvZ4jNVEb,Mind and Body,Ayelle,0.519,0.318,0.467
+spotify:track:1PDP7mLiAMwhfmgIwzhOm2,Yebba’s Heartbreak,Drake,0.519,0.161,0.967
