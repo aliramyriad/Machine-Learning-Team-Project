@@ -22,13 +22,15 @@ what happened *before* that play, so the model can't cheat:
 
 It trains on Jan–Jul and is tested on Aug–Sep, with and without audio features:
 
-| Model | Accuracy | F1 | ROC-AUC |
-|---|---|---|---|
-| Always guess "not liked" | 0.51 | 0.00 | 0.50 |
-| Logistic regression, no audio | 0.75 | 0.75 | 0.835 |
-| Logistic regression + audio | 0.75 | 0.75 | 0.837 |
-| Gradient boosting, no audio | 0.75 | 0.74 | 0.828 |
-| Gradient boosting + audio | 0.75 | 0.74 | 0.828 |
+| Model | Accuracy | F1 | ROC-AUC | Training time (s)|
+|---|---|---|---|---|
+| Always guess "not liked" | 0.51 | 0.00 | 0.50 | 0.001 |
+| Logistic regression, no audio | 0.75 | 0.75 | 0.835 | 0.038 |
+| Logistic regression + audio | 0.75 | 0.75 | 0.837 | 0.058 |
+| Gradient boosting, no audio | 0.75 | 0.74 | 0.828 | 0.312 |
+| Gradient boosting + audio | 0.75 | 0.74 | 0.828 | 0.356 |
+| Neural network, no audio features | 0.76 | 0.75 | 0.838 | 0.780 |
+| Neural network + audio features | 0.76 | 0.75 | 0.832 | 0.821 |
 
 Audio features barely help: past skips of the song and artist already capture
 taste, and the strongest signal is session "mood" (was the last song liked?).
